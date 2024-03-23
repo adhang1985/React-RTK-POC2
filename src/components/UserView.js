@@ -1,12 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { getAllUsers } from '../middleware/userServices';
+import { deleteUser, getAllUsers } from '../middleware/userServices';
+import { useNavigate } from 'react-router-dom';
 
 const UserView = () => {
 
   const {users,loading} = useSelector(state => state.userData);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
      dispatch(getAllUsers());
@@ -22,8 +24,8 @@ const UserView = () => {
           <td>{user.role}</td>
           <td>
               <div className="btn-group" role="group">
-                  <button className="btn btn-danger"><i className="fa-solid fa-trash"></i></button>
-                  <button className="btn btn-success"><i className="fa-solid fa-pen-to-square"></i></button>
+                  <button className="btn btn-danger" onClick={() => dispatch(deleteUser(user._id))}><i className="fa-solid fa-trash"></i></button>
+                  <button className="btn btn-success" onClick={() => navigate(`/edit/${user._id}`)}><i className="fa-solid fa-pen-to-square"></i></button>
               </div>
           </td>
       </tr>
